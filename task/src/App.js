@@ -1,11 +1,10 @@
-const App = () => {
-  return (
-    <>
-    <h1>OK</h1>
-    </>
+import Home from "./Components/Home/Home";
 
+const App = () => {
+
+  return (
+    <Home/>
   );
 }
 
 export default App;
-<h1>OK</h1>
