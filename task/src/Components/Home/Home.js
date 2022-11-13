@@ -1,12 +1,29 @@
 import styles from './Home.module.scss';
 import Button from '../Features/Button/Button';
 import { useState } from 'react';
+import { useDrag } from '@use-gesture/react'
+
 
 const Home = () => {
 
   const [addText, setAddText] = useState(false)
   const [backgroundImage, setBackgroundImage] = useState('./images/startImage.png')
   const [image, setImage] = useState();
+  const [textPos, setTextPos] = useState({ x: 100, y: 100 })
+  const [logoPos, setLogoPos] = useState({ x: 400, y: 500 })
+
+  const bindTextPos = useDrag((params) => {
+    setTextPos({
+      x: params.offset[0],
+      y: params.offset[1]
+    })
+  })
+  const bindLogoPos = useDrag((params) => {
+    setLogoPos({
+      x: params.offset[0],
+      y: params.offset[1]
+    })
+  })
 
 
   const handleAddText = () => {
@@ -21,10 +38,11 @@ const Home = () => {
   }
 
   return (
+
     <div className={styles.container}>
       <div className={styles.image} >
         {backgroundImage !== '' && <img className={styles.imgMain} src={backgroundImage} alt="" />}
-        {addText && <div className={styles.textArea}>
+        {addText && <div className={styles.textArea} style={{position: 'absolute', top: textPos.y, left: textPos.x, zIndex: 2}}>
           <div className={styles.colorPurple}>
             <img src="./images/colorPurple.svg" alt="" />
           </div>
@@ -32,7 +50,7 @@ const Home = () => {
             <img src="./images/trashIcon.svg" alt="" />
           </div>
           <div className={styles.moveIcon}>
-            <img src="./images/moveIcon.svg" alt="" />
+            <img src="./images/moveIcon.svg" alt=""  {...bindTextPos()} draggable="false"/>
           </div>
           <div className={styles.colorPalette}>
             <div className={styles.colorBlack}>
@@ -53,7 +71,7 @@ const Home = () => {
           </div>
           <textarea placeholder="Type your text&#10; here"></textarea>
         </div>}
-        {image && <img className={styles.selectedImage} src={image} alt=""></img>}
+        {image && <img className={styles.selectedImage} src={image} alt="" {...bindLogoPos()} style={{position: 'absolute', top: logoPos.y, left: logoPos.x, zIndex: 3}} draggable="false"></img>}
       </div>
       <div className={styles.options}>
         <div className={styles.topbar}>
