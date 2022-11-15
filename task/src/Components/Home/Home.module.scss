@@ -15,12 +15,14 @@
     top: 66px;
     left: 189px;
     background-color: #9B9B9B;
+    overflow: hidden;
 
     .selectedImage{
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%,-50%);
+      cursor: grab;
     }
 
     .imgMain {
@@ -87,6 +89,7 @@
         top:-20px;
         left:-20px;
         border-radius: 50%;
+        touch-action: none;
         &:hover {
           cursor:move;
         }
@@ -98,6 +101,7 @@
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
+          touch-action: none;
         }
       }
 

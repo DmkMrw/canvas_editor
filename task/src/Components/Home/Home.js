@@ -2,6 +2,10 @@ import styles from './Home.module.scss';
 import Button from '../Features/Button/Button';
 import { useState } from 'react';
 import { useDrag } from '@use-gesture/react'
+import React from 'react';
+import html2canvas from 'html2canvas';
+
+
 
 
 const Home = () => {
@@ -12,6 +16,7 @@ const Home = () => {
   const [color, setColor] = useState('black');
   const [textPos, setTextPos] = useState({ x: 100, y: 100 });
   const [logoPos, setLogoPos] = useState({ x: 400, y: 500 });
+  const [display, setDisplay] = useState(true);
 
   const bindTextPos = useDrag((params) => {
     setTextPos({
@@ -22,7 +27,7 @@ const Home = () => {
   const bindLogoPos = useDrag((params) => {
     setLogoPos({
       x: params.offset[0],
-      y: params.offset[1]
+      y: params.offset[1],
     })
   })
 
@@ -36,6 +41,7 @@ const Home = () => {
     setAddText(false);
     setBackgroundImage('./images/startImage.png')
     setImage()
+    setDisplay(true)
   }
 
   const handleChangeColor = (e) => {
@@ -46,22 +52,45 @@ const Home = () => {
     setAddText(false)
   }
 
+  const printRef = React.useRef();
+
+  const handleDownloadImage = async () => {
+    await setDisplay(false)
+    const element = printRef.current;
+    const canvas = await html2canvas(element);
+
+    const data = canvas.toDataURL('image/jpg');
+    const link = document.createElement('a');
+
+    if (typeof link.download === 'string') {
+      link.href = data;
+      link.download = 'image.png';
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(data);
+    }
+  };
+
+
   return (
 
     <div className={styles.container}>
-      <div className={styles.image} >
+      <div className={styles.image} ref={printRef}>
         {backgroundImage !== '' && <img className={styles.imgMain} src={backgroundImage} alt="" />}
-        {addText && <div className={styles.textArea} style={{position: 'absolute', top: textPos.y, left: textPos.x, zIndex: 2}}>
-          <div className={styles.colorPurple}>
+        {addText && <div className={styles.textArea} style={{position: 'absolute', top: textPos.y, left: textPos.x, zIndex: 2, border: !display ? 'none' : ''}}>
+          <div className={styles.colorPurple} style={{display: display ? 'block' : 'none'}}>
             <img src="./images/colorPurple.svg" alt="" />
           </div>
-          <div className={styles.trashIcon}>
+          <div className={styles.trashIcon} style={{display: display ? 'block' : 'none'}}>
             <img src="./images/trashIcon.svg" alt="" onClick={()=> handleRemove() } />
           </div>
-          <div className={styles.moveIcon}>
-            <img src="./images/moveIcon.svg" alt=""  {...bindTextPos()} draggable="false"/>
+          <div className={styles.moveIcon} style={{display: display ? 'block' : 'none'}}>
+            <img src="./images/moveIcon.svg" alt=""  {...bindTextPos()} draggable="false" />
           </div>
-          <div className={styles.colorPalette}>
+          <div className={styles.colorPalette} style={{display: display ? 'flex' : 'none'}}>
             <div className={styles.colorBlack} style={(color === 'black') ? {border: '2px solid #FFF', borderRadius: '50%'} : {}}>
               <img src="./images/colorBlack.svg" alt="black" onClick={e => handleChangeColor(e.target.alt)}/>
             </div>
@@ -78,7 +107,7 @@ const Home = () => {
               <img src="./images/colorGreen.svg" alt="green" onClick={e => handleChangeColor(e.target.alt)}/>
             </div>
           </div>
-          <textarea placeholder="Type your text&#10; here" style={{ color: color}}></textarea>
+          <textarea placeholder="Type your text&#10; here" style={{ color: color}} onClick={()=> setDisplay(true)}></textarea>
         </div>}
         {image && <img className={styles.selectedImage} src={image} alt="" {...bindLogoPos()} style={{position: 'absolute', top: logoPos.y, left: logoPos.x, zIndex: 3}} draggable="false"></img>}
       </div>
@@ -144,10 +173,11 @@ const Home = () => {
           </div>
 
         </div>
-          <div className={styles.button}>
+          <div className={styles.button} onClick={handleDownloadImage}>
             <Button />
-          </div>
+        </div>
       </div>
+
     </div>
   );
 }
