@@ -1,3 +1,5 @@
+@import '../../../styles/global.scss';
+
 .button {
   display: flex;
   flex-direction: row;
@@ -15,4 +17,12 @@
   /* Pallete/primary */
 
   background: #7209B7;
+
+  &:hover {
+    cursor: pointer;
+    background: $button-background-hover;
+  }
+  &:focus {
+    background-color: $button-border-focus;
+  }
 }

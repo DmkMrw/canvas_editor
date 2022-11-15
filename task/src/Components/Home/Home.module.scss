@@ -8,7 +8,6 @@
     object-fit: contain;
   }
   .image {
-    // background-image: url('../../../public/images/startImage.png');
     height: 948px;
     width: 759px;
     background-size: cover;
@@ -66,6 +65,9 @@
           width: 24px;
           height: 24px;
           border-radius: 50%;
+          &:hover {
+            cursor: pointer;
+          }
         img {
           position: absolute;
           top: 50%;
@@ -110,22 +112,29 @@
         height: 24px;
         left: 0px;
         bottom: -32px;
+        .colorBlack, .colorWhite, .colorBlue, .colorGreen, .colorRed:hover {
+          cursor: pointer;
+        }
+
+
 
         .colorBlack{
+          display: flex;
+          align-items: center;
+          justify-content: center;
           width: 24px;
           height: 24px;
 
           img {
-            position: absolute;
-            left: 0%;
-            top: 0%;
+            width: 16px;
+            height: 16px;
           }
         }
 
         .colorWhite {
           display: flex;
           align-items: center;
-                    justify-content: center;
+          justify-content: center;
           width: 24px;
           height: 24px;
 
@@ -141,7 +150,6 @@
           justify-content: center;
           width: 24px;
           height: 24px;
-
           img {
             width: 16px;
             height: 16px;
@@ -258,6 +266,9 @@
       .reset{
         display: flex;
         border-bottom: 1px solid #CB0000;
+        &:hover {
+          cursor: pointer;
+        }
 
         .resetText {
           width: 50px;
@@ -324,14 +335,19 @@
         padding: 12px;
         isolation: isolate;
 
+        &:hover {
+          cursor: pointer;
+          background-color: $color-black25;
+        }
+        &:focus {
+          background-color: $color-background-white97;
+        }
 
 
         .addTextImage{
           height: 96px;
           width: 96px;
-            &:hover {
-            cursor: pointer;
-          }
+
             img {
             width: 100%;
             height: 100%;
@@ -366,11 +382,33 @@
         padding: 12px;
         isolation: isolate;
 
+        &:hover {
+          background-color: $color-black25;
+        }
+        &:focus {
+          background-color: $color-background-white97;
+        }
+
+        .inputStyles {
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
       }
 
       .addImageImage{
         height: 96px;
         width: 96px;
+        position: relative;
+        z-index: -1;
+
         img {
           width: 100%;
           height: 100%;
@@ -387,6 +425,7 @@
         position: absolute;
         left: 164px;
         bottom: 12px;
+        z-index: -1;
       }
 
       .addBackground{
@@ -399,6 +438,12 @@
         top: 288px;
         left: 0;
 
+        &:hover {
+          background-color: $color-black25;
+        }
+        &:focus {
+          background-color: $color-background-white97;
+        }
 
         .inputStyles {
           opacity: 0;
@@ -423,6 +468,7 @@
           height: 96px;
           width: 96px;
           position: relative;
+          z-index: -1;
             img {
             width: 100%;
             height: 100%;
@@ -440,6 +486,7 @@
           left: 50%;
           transform: translateX(-50%);
           bottom: 12px;
+          z-index: -1;
         }
       }
 

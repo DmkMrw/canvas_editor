@@ -9,8 +9,9 @@ const Home = () => {
   const [addText, setAddText] = useState(false)
   const [backgroundImage, setBackgroundImage] = useState('./images/startImage.png')
   const [image, setImage] = useState();
-  const [textPos, setTextPos] = useState({ x: 100, y: 100 })
-  const [logoPos, setLogoPos] = useState({ x: 400, y: 500 })
+  const [color, setColor] = useState('black');
+  const [textPos, setTextPos] = useState({ x: 100, y: 100 });
+  const [logoPos, setLogoPos] = useState({ x: 400, y: 500 });
 
   const bindTextPos = useDrag((params) => {
     setTextPos({
@@ -34,7 +35,15 @@ const Home = () => {
   const handleReset = () => {
     setAddText(false);
     setBackgroundImage('./images/startImage.png')
-    console.log('Reset');
+    setImage()
+  }
+
+  const handleChangeColor = (e) => {
+    setColor(e)
+  }
+
+  const handleRemove = () => {
+    setAddText(false)
   }
 
   return (
@@ -47,29 +56,29 @@ const Home = () => {
             <img src="./images/colorPurple.svg" alt="" />
           </div>
           <div className={styles.trashIcon}>
-            <img src="./images/trashIcon.svg" alt="" />
+            <img src="./images/trashIcon.svg" alt="" onClick={()=> handleRemove() } />
           </div>
           <div className={styles.moveIcon}>
             <img src="./images/moveIcon.svg" alt=""  {...bindTextPos()} draggable="false"/>
           </div>
           <div className={styles.colorPalette}>
-            <div className={styles.colorBlack}>
-              <img src="./images/colorBlack.svg" alt="" />
+            <div className={styles.colorBlack} style={(color === 'black') ? {border: '2px solid #FFF', borderRadius: '50%'} : {}}>
+              <img src="./images/colorBlack.svg" alt="black" onClick={e => handleChangeColor(e.target.alt)}/>
             </div>
-            <div className={styles.colorWhite}>
-              <img src="./images/colorWhite.svg" alt="" />
+            <div className={styles.colorWhite} style={(color === 'white') ? {border: '2px solid #FFF', borderRadius: '50%'} : {}}>
+              <img src="./images/colorWhite.svg" alt="white" onClick={e => handleChangeColor(e.target.alt)}/>
             </div>
-            <div className={styles.colorRed}>
-              <img src="./images/colorRed.svg" alt="" />
+            <div className={styles.colorRed} style={(color === 'red') ? {border: '2px solid #FFF', borderRadius: '50%'} : {}}>
+              <img src="./images/colorRed.svg" alt="red" onClick={e => handleChangeColor(e.target.alt)}/>
             </div>
-            <div className={styles.colorBlue}>
-              <img src="./images/colorBlue.svg" alt="" />
+            <div className={styles.colorBlue} style={(color === 'blue') ? {border: '2px solid #FFF', borderRadius: '50%'} : {}}>
+              <img src="./images/colorBlue.svg" alt="blue" onClick={e => handleChangeColor(e.target.alt)}/>
             </div>
-            <div className={styles.colorGreen}>
-              <img src="./images/colorGreen.svg" alt="" />
+            <div className={styles.colorGreen} style={(color === 'green') ? {border: '2px solid #FFF', borderRadius: '50%'} : {}}>
+              <img src="./images/colorGreen.svg" alt="green" onClick={e => handleChangeColor(e.target.alt)}/>
             </div>
           </div>
-          <textarea placeholder="Type your text&#10; here"></textarea>
+          <textarea placeholder="Type your text&#10; here" style={{ color: color}}></textarea>
         </div>}
         {image && <img className={styles.selectedImage} src={image} alt="" {...bindLogoPos()} style={{position: 'absolute', top: logoPos.y, left: logoPos.x, zIndex: 3}} draggable="false"></img>}
       </div>
@@ -91,16 +100,15 @@ const Home = () => {
         <div className={styles.mainTitle}><span>Add content</span></div>
         <div className={styles.optionsBoxes}>
 
-          <div className={styles.addText}>
-            <div className={styles.addTextImage} onClick={()=> handleAddText()}>
+          <div className={styles.addText} onClick={()=> handleAddText()}>
+            <div className={styles.addTextImage} >
               <img src="./images/addText.svg" alt="add text button" />
             </div>
             <div className={styles.addTextText}>Text</div>
           </div>
 
           <div className={styles.addImage}>
-            <div className={styles.addImageImage}>
-              <input
+            <input
               className={styles.inputStyles}
               type="file"
               accept="image/*"
@@ -110,14 +118,15 @@ const Home = () => {
                 setImage(URL.createObjectURL(event.target.files[0]));
                 }}
               />
+            <div className={styles.addImageImage}>
+
               <img src="./images/addImage.svg" alt="add image button" />
             </div>
             <div className={styles.addImageText}>Image</div>
           </div>
 
           <div className={styles.addBackground}>
-            <div className={styles.addBackgroundImage}>
-              <input
+            <input
               className={styles.inputStyles}
               type="file"
               accept="image/*"
@@ -127,6 +136,8 @@ const Home = () => {
                 setBackgroundImage(URL.createObjectURL(event.target.files[0]));
               }}
             />
+            <div className={styles.addBackgroundImage}>
+
               <img src="./images/addBackground.svg" alt="add background button" />
             </div>
             <div className={styles.addBackgroundText}>Background</div>
