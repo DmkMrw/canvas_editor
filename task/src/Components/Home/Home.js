@@ -6,8 +6,6 @@ import React from 'react';
 import html2canvas from 'html2canvas';
 
 
-
-
 const Home = () => {
 
   const [addText, setAddText] = useState(false)
@@ -15,9 +13,10 @@ const Home = () => {
   const [image, setImage] = useState();
   const [color, setColor] = useState('black');
   const [textPos, setTextPos] = useState({ x: 100, y: 100 });
-  const [logoPos, setLogoPos] = useState({ x: 400, y: 500 });
+  const [logoPos, setLogoPos] = useState({ x: 100, y: 100 });
   const [display, setDisplay] = useState(true);
 
+// Drag and drop function
   const bindTextPos = useDrag((params) => {
     setTextPos({
       x: params.offset[0],
@@ -31,12 +30,13 @@ const Home = () => {
     })
   })
 
-
+// Add Text handler
   const handleAddText = () => {
     setAddText(true);
     if (backgroundImage === './images/startImage.png') setBackgroundImage('');
   }
 
+// Reset handler
   const handleReset = () => {
     setAddText(false);
     setBackgroundImage('./images/startImage.png')
@@ -44,14 +44,17 @@ const Home = () => {
     setDisplay(true)
   }
 
+// Change text color handler
   const handleChangeColor = (e) => {
     setColor(e)
   }
 
+// Remove text area handler
   const handleRemove = () => {
     setAddText(false)
   }
 
+// Download image function -> start
   const printRef = React.useRef();
 
   const handleDownloadImage = async () => {
@@ -73,11 +76,12 @@ const Home = () => {
       window.open(data);
     }
   };
-
+// Download image function <- stop
 
   return (
 
     <div className={styles.container}>
+      {/* PHOTO SIDE */}
       <div className={styles.image} ref={printRef}>
         {backgroundImage !== '' && <img className={styles.imgMain} src={backgroundImage} alt="" />}
         {addText && <div className={styles.textArea} style={{position: 'absolute', top: textPos.y, left: textPos.x, zIndex: 2, border: !display ? 'none' : ''}}>
@@ -111,11 +115,13 @@ const Home = () => {
         </div>}
         {image && <img className={styles.selectedImage} src={image} alt="" {...bindLogoPos()} style={{position: 'absolute', top: logoPos.y, left: logoPos.x, zIndex: 3}} draggable="false"></img>}
       </div>
+
+      {/* OPTIONS SIDE */}
       <div className={styles.options}>
         <div className={styles.topbar}>
           <div className={styles.logoname}>
             <div className={styles.logo}>
-              <img src="./images/Vector.svg" alt="editors logo" />
+              <img src="./images/canvaLogo.svg" alt="editors logo" />
             </div>
             <div className={styles.name}>CanvasEditor</div>
           </div>
@@ -148,7 +154,6 @@ const Home = () => {
                 }}
               />
             <div className={styles.addImageImage}>
-
               <img src="./images/addImage.svg" alt="add image button" />
             </div>
             <div className={styles.addImageText}>Image</div>
@@ -166,7 +171,6 @@ const Home = () => {
               }}
             />
             <div className={styles.addBackgroundImage}>
-
               <img src="./images/addBackground.svg" alt="add background button" />
             </div>
             <div className={styles.addBackgroundText}>Background</div>
